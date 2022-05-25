@@ -1,0 +1,79 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+
+.login-container .login-form-container {
+    border: 1px solid;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 55px;
+    height: 100%;
+    width: 98%;
+    text-align: center;
+}
+
+.login-container .login-form-container h1{
+    color: #007DC6;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.login-container .gradient-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    border-radius: 65px;
+    box-shadow: inset 0 0 0px 2px #f0f2f5, inset 0 0 3px 2px #f0f2f5;
+    background: linear-gradient(#007dc6, #37c3d1);
+    width: 25%;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+}
+
+.login-container form input{
+    border: unset;
+    border-bottom: 2px solid #2680eb;
+    width: 60%;
+    margin: 5%;
+    height: 40px;
+    font-size: 16px;
+}
+
+.login-container form .submit-button{
+    background-color: white;
+    border-radius: 28px;
+    border: 2px solid #007DC6;
+    display: inline-block;
+    cursor: pointer;
+    color: #007DC6;
+    font-size: 20px;
+    padding: 15px 25px;
+    transition: 0.5s;
+}
+.login-container form button:hover{
+    background-color: #007DC6;
+    color: white;
+}
+
+
+/* For mobile phones: */
+@media only screen and (max-width: 768px) {
+    .login-container .gradient-container{
+        width: 80%;
+    }
+
+    .login-container form input {
+        width: auto;
+    }
+}
