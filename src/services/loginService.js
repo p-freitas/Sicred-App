@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { AppDispatch } from '../store';
 import { getLoginAction } from '../store/login/loginAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

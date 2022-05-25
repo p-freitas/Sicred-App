@@ -1,13 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Table from '../../components/tablee';
 import { searchDragons } from '../../services/dragonsService';
+import './styles.css';
 
 
 const Home = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const store = useSelector((state) => state.dragon);
     console.log(store);
-    const dispatch = useDispatch();
 
     React.useEffect(() => {
         dispatch(searchDragons());
@@ -18,8 +21,9 @@ const Home = () => {
         return data;
     });
     return (
-        <div>
+        <div className='home-container'>
             <h1>Home Page</h1>
+            <button className='add-button' onClick={() => navigate('/Add')}>Adicionar novo dragão</button>
             <Table data={dataa} />
         </div>
     );
