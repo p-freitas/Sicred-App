@@ -30,24 +30,29 @@ const RoutesComponent = () => {
 };
 
 const AnonymousRouter = () => {
-    const anonymousRoutes = routes.filter
-      ? routes.filter((r) => !r.onlyAuthorized)
-      : [];
-    return (
-      <Routes>
-        {anonymousRoutes.map(
-          (route, index) =>
-            route.path && (
-              <Route
-                key={index}
-                path="/"
-                element={<route.page />}
-              />
-            ),
-        )}
-        <Route path="/not-found" />
-      </Routes>
-    );
-  };
+  const anonymousRoutes = routes.filter
+    ? routes.filter((r) => !r.onlyAuthorized)
+    : [];
+  return (
+    <Routes>
+      {anonymousRoutes.map(
+        (route, index) =>
+          route.path && (
+            <Route
+              key={index}
+              path="/"
+              element={<route.page />}
+            />
+          ),
+      )}
+      <Route path="/not-found" />
+    </Routes>
+  );
+};
 
-export default { RoutesComponent, AnonymousRouter };
+const routers = {
+  RoutesComponent,
+  AnonymousRouter,
+}
+
+export default routers;

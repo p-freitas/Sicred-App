@@ -1,10 +1,10 @@
-import './index.css';
+import './styles.css';
 
 const BaseLayout = ({ children }) => {
     return (
     <div className="base-layout">
         <div>Hello world</div>
-        <div>{children}</div>
+        {children}
     </div>
     );
 }
@@ -18,4 +18,9 @@ const AnonymousLayout = ({ children }) => {
     );
 }
 
-export default { BaseLayout, AnonymousLayout };
+const layout = {
+    BaseLayout, 
+    AnonymousLayout,
+}
+
+export default layout;

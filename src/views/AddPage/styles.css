@@ -1,0 +1,17 @@
+.home-container {
+
+}
+
+.home-container .back-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 10px;
+    width: 50%;
+    cursor: pointer;
+}
+
+.home-container svg {
+    width: 20px;
+    height: 20px;
+}
