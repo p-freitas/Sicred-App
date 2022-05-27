@@ -1,3 +1,41 @@
 .base-layout {
     height: inherit;
 }
+
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #007DC6;
+}
+
+.menu li {
+    float: left;
+}
+
+.menu li button {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    background: #007DC6;
+    border: unset;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.menu li button:hover {
+    background-color: white;
+    color: #007DC6;
+}
+
+/* For mobile phones: */
+@media only screen and (max-width: 768px) {
+    .menu {
+        position: fixed;
+        width: -webkit-fill-available;
+        width: -moz-fill-available;
+    }
+}

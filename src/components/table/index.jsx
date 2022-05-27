@@ -1,165 +1,95 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useTable, usePagination } from 'react-table'
-import makeData from '../../makeData'
-import { searchLogin } from '../../services/loginService'
+import React, { useEffect, useState } from "react";
+import 'moment/locale/pt-br';
+import { EditSvg, DeleteSvg, DetailsSvg } from '../../helpers/iconsHelper';
+import { useNavigate } from 'react-router-dom';
+import './styles.css';
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from 'react-toastify';
+import { deleteDragon } from "../../services/dragonsService";
 
-export default function Table({
-    columns,
-    data,
-    // fetchData,
-    loading,
-    pageCount: controlledPageCount,
-}) {
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        prepareRow,
-        page,
-        canPreviousPage,
-        canNextPage,
-        pageOptions,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        setPageSize,
-        // Get the state from the instance
-        state: { pageIndex, pageSize },
-    } = useTable(
-        {
-            columns,
-            data,
-            initialState: { pageIndex: 0 }, // Pass our hoisted table state
-            manualPagination: true, // Tell the usePagination
-            // hook that we'll handle our own data fetching
-            // This means we'll also have to provide our own
-            // pageCount.
-            pageCount: controlledPageCount,
-        },
-        usePagination
-    )
-
+const Table = ({ data }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const store = useSelector((state) => state.dragon);
+    const [list, setList] = useState(data);
+    const { isLoadingSearch } = store;
 
-    // Listen for changes in pagination and use the state to fetch our new data
-    // React.useEffect(() => {
-    //     dispatch(searchLogin());
-    //     console.log('asdfdsf');
-    // }, [])
+    useEffect(() => {
+        setList(data);
+    }, [data])
+    
 
-    // Render the UI for your table
+    const handleEditClick = (id) => {
+        navigate(`/edit/${id}`)
+    };
+
+    const handleDetailsClick = (id) => {
+        navigate(`/details/${id}`)
+    };
+
+    const handleDeleteClick = async (id, index) => {
+        dispatch(await deleteDragon(id, navigate));
+        const newList = [...list];
+        if (index !== -1) {
+            newList.splice(index, 1);
+            setList(newList);
+        }
+    };
+
+    const getDate = (date) => {
+        var moment = require('moment-timezone');
+        const data = moment(date);
+        data.locale('pt');
+        return data.tz('America/Sao_Paulo').format('DD-MM-YYYY, H:mm:ss');
+    }
+
     return (
-        <>
-            <pre>
-                <code>
-                    {JSON.stringify(
-                        {
-                            pageIndex,
-                            pageSize,
-                            pageCount,
-                            canNextPage,
-                            canPreviousPage,
-                        },
-                        null,
-                        2
-                    )}
-                </code>
-            </pre>
-            <table {...getTableProps()}>
+        <div className="table">
+            <table id="dragons-table">
                 <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>
-                                    {column.render('Header')}
-                                    <span>
-                                        {column.isSorted
-                                            ? column.isSortedDesc
-                                                ? ' 🔽'
-                                                : ' 🔼'
-                                            : ''}
-                                    </span>
-                                </th>
-                            ))}
+                    <tr>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Data da criação</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                {isLoadingSearch ? (<div className="lds-dual-ring"></div>) : (<tbody>
+                    {list?.map((dragon, index) => (
+                        <tr key={dragon.id}>
+                            <td>{dragon.name}</td>
+                            <td>{dragon.type}</td>
+                            <td>{getDate(dragon.createdAt)}</td>
+                            <td>
+                                <span
+                                    className="buttons"
+                                    title="Editar"
+                                    onClick={() => handleEditClick(dragon.id)}
+                                >
+                                    <EditSvg />
+                                </span>
+                                <span
+                                    className="buttons"
+                                    title="Detalhes"
+                                    onClick={() => handleDetailsClick(dragon.id)}
+                                >
+                                    <DetailsSvg />
+                                </span>
+                                <span
+                                    className="buttons"
+                                    title="Deletar"
+                                    onClick={() => { if (window.confirm('Tem certeza que quer deletar este dragão?')) handleDeleteClick(dragon.id, index) }}
+                                >
+                                    <DeleteSvg />
+                                </span>
+                            </td>
                         </tr>
                     ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {
-                        prepareRow(row)
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                })}
-                            </tr>
-                        )
-                    })}
-                    <tr>
-                        {loading ? (
-                            // Use our custom loading state to show a loading indicator
-                            <td colSpan="10000">Loading...</td>
-                        ) : (
-                            <td colSpan="10000">
-                                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
-                                results
-                            </td>
-                        )}
-                    </tr>
-                </tbody>
+                </tbody>)}
             </table>
-            {/* 
-          Pagination can be built however you'd like. 
-          This is just a very basic UI implementation:
-        */}
-            <div className="pagination">
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                    {'<<'}
-                </button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    {'<'}
-                </button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
-                    {'>'}
-                </button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                    {'>>'}
-                </button>{' '}
-                <span>
-                    Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {pageOptions.length}
-                    </strong>{' '}
-                </span>
-                <span>
-                    | Go to page:{' '}
-                    <input
-                        type="number"
-                        defaultValue={pageIndex + 1}
-                        onChange={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            gotoPage(page)
-                        }}
-                        style={{ width: '100px' }}
-                    />
-                </span>{' '}
-                <select
-                    value={pageSize}
-                    onChange={e => {
-                        setPageSize(Number(e.target.value))
-                    }}
-                >
-                    {[10, 20, 30, 40, 50].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
-            </div>
-        </>
-    )
+            <ToastContainer />
+        </div>
+    );
 }
 
-const serverData = makeData(10000)
+export default Table;

@@ -1,34 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AddForm from '../../components/AddForm';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowSvg } from '../../helpers/iconsHelper';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { searchDragons } from '../../services/dragonsService';
 import './styles.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDragon } from '../../services/dragonsService';
 
 
 const AddPage = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const store = useSelector((state) => state.dragon);
-    // console.log(store);
-    // const dispatch = useDispatch();
+    const { id } = useParams();
+    const store = useSelector((state) => state.dragon);
 
-    // React.useEffect(() => {
-    //     dispatch(searchDragons());
-    //     console.log('asdfdsf');
-    // }, [dispatch])
+    useEffect(() => {
+        if (id) dispatch(getDragon(id));
+    }, [dispatch, id])
 
-    // const dataa = store?.data?.map((data) => {
-    //     return data;
-    // });
     return (
-        <div className='home-container'>
-            <span className='back-button' onClick={() => navigate('/')}>
+        <div className='add-page-container'>
+            <span className='back-button' onClick={() => navigate(-1)}>
                 <ArrowSvg />
                 <h1>Voltar</h1>
             </span>
-
-            <AddForm />
+            <AddForm dragon={store.dragon} id={id} />
         </div>
     );
 };

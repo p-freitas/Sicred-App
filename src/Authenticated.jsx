@@ -5,9 +5,9 @@ import routers from './routes/Routes';
 const Authenticated = () => {
   if (localStorage.getItem('authenticated') == null) {
     return (
-      <layout.BaseLayout>
+      <layout.AnonymousLayout>
         <routers.AnonymousRouter />
-      </layout.BaseLayout>
+      </layout.AnonymousLayout>
     );
   }
   return (

@@ -6,31 +6,36 @@
 }
 
 .add-container .add-form-container {
-    border: 1px solid;
+    border: 1px solid #007dc6;
     border-radius: 50px;
     width: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 40%;
+}
+
+.add-container .add-form-container h2 {
+    color: #007dc6;
 }
 
 .add-container form {
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 80%;
+    margin: 20px;
 }
 
-.add-container form input{
+.add-container form input {
     border: unset;
     border-bottom: 2px solid #2680eb;
-    width: 60%;
-    margin: 5%;
+
     height: 40px;
     font-size: 16px;
 }
 
-.add-container form .submit-button{
+.add-container form .submit-button {
     background-color: white;
     border-radius: 28px;
     border: 2px solid #007DC6;
@@ -41,7 +46,26 @@
     padding: 10px 15px;
     transition: 0.5s;
 }
-.add-container form button:hover{
+
+.add-container form button:hover {
     background-color: #007DC6;
     color: white;
+}
+
+/* For mobile phones: */
+@media only screen and (max-width: 768px) {
+    .add-container .add-form-container {
+        height: 400px;
+        width: 90%;
+        justify-content: center;
+    }
+
+    .add-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .add-container form input {
+        width: 90%;
+    }
 }

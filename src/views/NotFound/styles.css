@@ -1,0 +1,7 @@
+.not-found-container {
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #007dc6;
+}

@@ -1,0 +1,49 @@
+.table {
+	margin: 20px 0;
+}
+
+.table .buttons svg {
+	width: 18px;
+	cursor: pointer;
+	margin: 0px 10px;
+}
+
+table {
+	border-collapse: collapse;
+	font-family: Tahoma, Geneva, sans-serif;
+}
+
+table td {
+	padding: 15px;
+}
+
+table thead th {
+	background-color: #5ab3e7;
+	color: white;
+	font-weight: bold;
+	font-size: 16px;
+	border: 1px solid #007DC6;
+	padding: 5px;
+}
+
+table tbody td {
+	color: #636363;
+	border: 1px solid #007DC6;
+}
+
+table tbody tr {
+	background-color: #f9fafb;
+}
+
+table tbody tr:nth-child(odd) {
+	background-color: #ffffff;
+}
+
+/* For mobile phones: */
+@media only screen and (max-width: 768px) {
+	.table {
+		width: 95%;
+		text-align: center;
+		margin: 10% 0;
+	}
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import routes from '../config/routes';
+import NotFound from '../views/NotFound';
 
 const RoutesComponent = () => {
   const authenticatedRoutes = routes.filter
@@ -24,7 +25,7 @@ const RoutesComponent = () => {
         path="/"
         element={<Route path={routes.find((r) => r.mainPage)?.path || ''} />}
       />
-      <Route path="/not-found" />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
@@ -40,12 +41,12 @@ const AnonymousRouter = () => {
           route.path && (
             <Route
               key={index}
-              path="/"
+              path={route.path}
               element={<route.page />}
             />
           ),
       )}
-      <Route path="/not-found" />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

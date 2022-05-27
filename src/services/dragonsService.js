@@ -3,41 +3,18 @@ import { getDragonAction } from '../store/dragons/dragonsAction';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const searchDragons = (
-  id = '',
-) => {
-  return async (dispatch) => {
-    api
-      .get('/dragon', {
-        params: {
-          Id: id,
-        },
-      })
-      .then(async ({ data: payload }) => {
-        console.log(payload);
-        dispatch(getDragonAction(payload));
-        // dispatch(endLoadingProfiles());
-      })
-
-      .catch(() => {
-        // dispatch(endLoadingProfiles());
-      });
-  };
-};
-
-export const postDragon = (
-  data
+export const postDragon = async (
+  data,
+  resetForm,
 ) => {
   return async () => {
-    console.log(data);
     api
       .post('/dragon', {
         name: data.name,
         type: data.type,
         createdAt: data.createdAt,
       })
-      .then(async ({ data: payload }) => {
-        console.log(payload);
+      .then(() => {
         toast.success('Dragão adicionado com sucesso!', {
           position: "top-center",
           autoClose: 5000,
@@ -47,11 +24,90 @@ export const postDragon = (
           draggable: true,
           progress: undefined,
         })
-        // dispatch(endLoadingProfiles());
+        resetForm();
       })
-
       .catch(() => {
         toast.error('Erro ao adicionar o novo dragão', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      });
+  };
+};
+
+export const getDragon = (
+  id = '',
+) => {
+  return async (dispatch) => {
+    api
+      .get(`/dragon/${id}`, {})
+      .then(async ({ data: payload }) => {
+        dispatch(getDragonAction(payload));
+      })
+      .catch(() => { });
+  };
+};
+
+export const putDragon = (
+  data,
+) => {
+  return async () => {
+    api
+      .put(`/dragon/${data.id}`, {
+        name: data.values.name,
+        type: data.values.type,
+      })
+      .then(async () => {
+        toast.success('Dragão alterado com sucesso!', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      })
+      .catch(() => {
+        toast.error('Erro ao alterar o dragão', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      });
+  };
+};
+
+export const deleteDragon = async (
+  id = '',
+  navigate,
+) => {
+  return async () => {
+    api
+      .delete(`/dragon/${id}`, {})
+      .then(async () => {
+        navigate('/');
+        toast.success('Dragão removido com sucesso!', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      })
+      .catch(() => {
+        toast.error('Erro ao remover o dragão', {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
