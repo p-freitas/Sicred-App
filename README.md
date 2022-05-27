@@ -1,4 +1,4 @@
-# Sicred-App
+# Sicredi-App
 
 ## Stack
 - React
@@ -9,4 +9,5 @@
 - Usuário de teste: teste
 - Senha: 123456
 
+## Instalação
 Para rodar o projeto rode os comandos `npm install` e `npm start`
